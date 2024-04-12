@@ -17,12 +17,11 @@ void Disassembler::disassembleRom(std::string romPath)
     std::ifstream myfile;
 
     if (DEBUG) {
-        std::cout << "Disassembler.cpp - Reading File: " << romPath << std::endl;
+        std::cout << "src/disassembler.cpp - Reading File: " << romPath << std::endl;
     }
 
     myfile.open(romPath);
 
-    // always check whether the file is open
     if ( myfile.is_open() ) { 
         while (myfile) {
             // pipe file's content into stream
