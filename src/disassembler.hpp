@@ -10,6 +10,7 @@ class Disassembler
 {
      private: 
           std::string mystring;
+          unsigned char* buffer;
      public:
           Disassembler();
           ~Disassembler();
