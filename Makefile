@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++20
 SRC = src/main.cpp src/disassembler.cpp
 OBJ = $(SRC:.cpp=.o)  
 OUT = 8080.out

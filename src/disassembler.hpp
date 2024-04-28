@@ -4,17 +4,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip> // for std::setw
+#include <sstream> // for std::ostringstream
 #include "constants.hpp"
 
 class Disassembler
 {
      private: 
-          std::string mystring;
-          unsigned char* buffer;
+          unsigned char codeBuffer[MAX_ROM_SIZE];
      public:
           Disassembler();
           ~Disassembler();
-          void disassembleRom(std::string romPath);
+          int disassembleRom(std::string romPath);
+          int disassembleInstruction(unsigned char* buffer, int* pc);
+          std::string disassemblerToStringHex(unsigned char* code);
 };
  
 #endif
