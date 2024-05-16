@@ -355,6 +355,11 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 2;
             return 0;
         }
+        case 0x37: {
+            std::cout << "STC" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x3a: {
              std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
@@ -467,6 +472,81 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
+        case 0x50: {
+            std::cout << "MOV D,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x51: {
+            std::cout << "MOV D,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x52: {
+            std::cout << "MOV D,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x53: {
+            std::cout << "MOV D,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x54: {
+            std::cout << "MOV D,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x55: {
+            std::cout << "MOV D,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x56: {
+            std::cout << "MOV D,M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x57: {
+            std::cout << "MOV D,A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x58: {
+            std::cout << "MOV E,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x59: {
+            std::cout << "MOV E,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x5a: {
+            std::cout << "MOV E,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x5b: {
+            std::cout << "MOV E,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x5c: {
+            std::cout << "MOV E,F" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x5d: {
+            std::cout << "MOV E,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x5e: {
+            std::cout << "MOV E,M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x5f: {
             std::cout << "MOV E,A" << std::endl;
             *pc = *pc + 1;
@@ -474,8 +554,33 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
+        case 0x60: {
+            std::cout << "MOV H,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x61: {
             std::cout << "MOV H,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x62: {
+            std::cout << "MOV H,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x63: {
+            std::cout << "MOV H,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x64: {
+            std::cout << "MOV H,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x65: {
+            std::cout << "MOV H,L" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -489,6 +594,41 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0x68: {
+            std::cout << "MOV L,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x69: {
+            std::cout << "MOV L,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x6a: {
+            std::cout << "MOV L,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x6b: {
+            std::cout << "MOV L,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x6c: {
+            std::cout << "MOV L,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x6d: {
+            std::cout << "MOV L,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x6e: {
+            std::cout << "MOV L,M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x6f: {
             std::cout << "MOV L,A" << std::endl;
             *pc = *pc + 1;
@@ -496,13 +636,68 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
+        case 0x70: {
+            std::cout << "MOV M,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x71: {
+            std::cout << "MOV M,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x72: {
+            std::cout << "MOV M,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x73: {
+            std::cout << "MOV M,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x74: {
+            std::cout << "MOV M,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x75: {
+            std::cout << "MOV M,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x76: {
+            std::cout << "HLT" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x77: {
+            std::cout << "MOV M,A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x78: {
             std::cout << "MOV A,B" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
+        case 0x79: {
+            std::cout << "MOV A,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x7a: {
             std::cout << "MOV A,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x7b: {
+            std::cout << "MOV A,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x7c: {
+            std::cout << "MOV A,H" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -516,8 +711,182 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0x7f: {
+            std::cout << "MOV A,A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
 
 
+        case 0x80: {
+            std::cout << "ADD B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x81: {
+            std::cout << "ADD C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x82: {
+            std::cout << "ADD D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x83: {
+            std::cout << "ADD E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x84: {
+            std::cout << "ADD H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x85: {
+            std::cout << "ADD L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x86: {
+            std::cout << "ADD M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x87: {
+            std::cout << "ADD A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x88: {
+            std::cout << "ADC B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x89: {
+            std::cout << "ADC C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8a: {
+            std::cout << "ADC D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8b: {
+            std::cout << "ADC E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8c: {
+            std::cout << "ADC H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8d: {
+            std::cout << "ADC L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8e: {
+            std::cout << "ADC M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x8f: {
+            std::cout << "ADC A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+
+
+        case 0x90: {
+            std::cout << "SUB B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x91: {
+            std::cout << "SUB C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x92: {
+            std::cout << "SUB D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x93: {
+            std::cout << "SUB E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x94: {
+            std::cout << "SUB H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x95: {
+            std::cout << "SUB L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x96: {
+            std::cout << "SUB M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x97: {
+            std::cout << "SUB A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x98: {
+            std::cout << "SBB B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x99: {
+            std::cout << "SBB C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9a: {
+            std::cout << "SBB D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9b: {
+            std::cout << "SBB E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9c: {
+            std::cout << "SBB H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9d: {
+            std::cout << "SBB L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9e: {
+            std::cout << "SBB M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x9f: {
+            std::cout << "SBB A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+
+
+        case 0xa0: {
+            std::cout << "ANA B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xa7: {
             std::cout << "ANA A" << std::endl;
             *pc = *pc + 1;
@@ -525,6 +894,29 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0xaf: {
             std::cout << "XRA A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+
+
+
+        case 0xb0: {
+            std::cout << "ORA B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb4: {
+            std::cout << "ORA H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb8: {
+            std::cout << "CMP B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xbe: {
+            std::cout << "CMP M" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -604,6 +996,13 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             return 0;
         }
 
+
+        case 0xd0: {
+            std::cout << "RNC" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+
+        }
         case 0xd1: {
             std::cout << "POP D" << std::endl;
             *pc = *pc + 1;
@@ -616,9 +1015,21 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 3;
             return 0;
         }
+        case 0xd3: {
+            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::cout << "OUT #$" << input << std::endl; //D8
+            *pc = *pc + 2;
+            return 0;
+        }
         case 0xd5: {
             std::cout << "PUSH D" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xd6: {
+            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::cout << "SUI #$" << input << std::endl; //D8
+            *pc = *pc + 2;
             return 0;
         }
         case 0xda: {
@@ -634,9 +1045,20 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 2;
             return 0;
         }
+        case 0xde: {
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::cout << "SBI #$" << input1 << std::endl; 
+            *pc = *pc + 2;
+            return 0;
+        }
 
         case 0xe1: {
             std::cout << "POP H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xe3: {
+            std::cout << "XTHL" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -649,6 +1071,11 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::cout << "ANI #$" << input1 << std::endl; 
             *pc = *pc + 2;
+            return 0;
+        }
+        case 0xe9: {
+            std::cout << "PCHL" << std::endl;
+            *pc = *pc + 1;
             return 0;
         }
         case 0xeb: {
@@ -666,6 +1093,12 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         case 0xf5: {
             std::cout << "PUSH PSW" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xf6: {
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::cout << "ORI #$" << input1 << std::endl; 
+            *pc = *pc + 2;
             return 0;
         }
         case 0xfa: {
