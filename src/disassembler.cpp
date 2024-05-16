@@ -378,15 +378,90 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 2;
             return 0;
         }
+        case 0x3f: {
+            std::cout << "CMC" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
 
 
+        case 0x40: {
+            std::cout << "MOV B,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x41: {
+            std::cout << "MOV B,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x42: {
+            std::cout << "MOV B,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x43: {
+            std::cout << "MOV B,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x44: {
+            std::cout << "MOV B,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x45: {
+            std::cout << "MOV B,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x46: {
             std::cout << "MOV B,M" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
+        case 0x47: {
+            std::cout << "MOV B,A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x48: {
+            std::cout << "MOV C,B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x49: {
+            std::cout << "MOV C,C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x4a: {
+            std::cout << "MOV C,D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x4b: {
+            std::cout << "MOV C,E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x4c: {
+            std::cout << "MOV C,H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x4d: {
+            std::cout << "MOV C,L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0x4e: {
             std::cout << "MOV C,M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x4f: {
+            std::cout << "MOV C,A" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -591,6 +666,13 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         case 0xf5: {
             std::cout << "PUSH PSW" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xfa: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "JM " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
             return 0;
         }
         case 0xfb: {
