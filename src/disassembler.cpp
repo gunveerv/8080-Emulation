@@ -65,7 +65,19 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
 
     switch (*code)
     {
-        case 0x00: {
+        case 0x00:
+        case 0x08:
+		case 0x10:
+		case 0x18:
+        case 0x20:
+		case 0x28:
+        case 0x30:
+		case 0x38:
+		case 0xcb:
+		case 0xd9:
+		case 0xdd:
+		case 0xed:
+		case 0xfd: {
             std::cout << "NOP" << std::endl;
             *pc = *pc + 1;
             return 0;
@@ -108,10 +120,6 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
-        case 0x08: {
-            *pc = -1;
-            return 1;
-        }
         case 0x09: {
             std::cout << "DAD B" << std::endl;
             *pc = *pc + 1;
@@ -149,10 +157,7 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             return 0;
         }
 
-        case 0x10: {
-            *pc = -1;
-            return 1;
-        }
+
         case 0x11: {
             std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
@@ -185,10 +190,6 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             std::cout << "MVI D,#$" << input << std::endl; //D8
             *pc = *pc + 2;
             return 0;
-        }
-        case 0x18: {
-            *pc = -1;
-            return 1;
         }
         case 0x19: {
             std::cout << "DAD D" << std::endl;
@@ -228,10 +229,6 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
-        case 0x20: {
-            *pc = -1;
-            return 1;
-        }
         case 0x21: {
             std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
@@ -271,10 +268,6 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             std::cout << "DAA" << std::endl;
             *pc = *pc + 1;
             return 0;
-        }
-        case 0x28: {
-            *pc = -1;
-            return 1;
         }
         case 0x29: {
             std::cout << "DAD H" << std::endl;
@@ -316,10 +309,6 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
-        case 0x30: {
-            *pc = -1;
-            return 1;
-        }
         case 0x31: {
             std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
@@ -357,6 +346,11 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0x37: {
             std::cout << "STC" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0x39: {
+            std::cout << "DAD SP" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -887,8 +881,73 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0xa1: {
+            std::cout << "ANA C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa2: {
+            std::cout << "ANA D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa3: {
+            std::cout << "ANA E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa4: {
+            std::cout << "ANA H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa5: {
+            std::cout << "ANA L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa6: {
+            std::cout << "ANA M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xa7: {
             std::cout << "ANA A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa8: {
+            std::cout << "XRA B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xa9: {
+            std::cout << "XRA C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xaa: {
+            std::cout << "XRA D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xab: {
+            std::cout << "XRA E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xac: {
+            std::cout << "XRA H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xad: {
+            std::cout << "XRA L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xae: {
+            std::cout << "XRA M" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -899,9 +958,23 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
 
 
-
         case 0xb0: {
             std::cout << "ORA B" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb1: {
+            std::cout << "ORA C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb2: {
+            std::cout << "ORA D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb3: {
+            std::cout << "ORA E" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -910,13 +983,58 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0xb5: {
+            std::cout << "ORA L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb6: {
+            std::cout << "ORA M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xb7: {
+            std::cout << "ORA A" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xb8: {
             std::cout << "CMP B" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
+        case 0xb9: {
+            std::cout << "CMP C" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xba: {
+            std::cout << "CMP D" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xbb: {
+            std::cout << "CMP E" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xbc: {
+            std::cout << "CMP H" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xbd: {
+            std::cout << "CMP L" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xbe: {
             std::cout << "CMP M" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xbf: {
+            std::cout << "CMP A" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
@@ -1021,6 +1139,13 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 2;
             return 0;
         }
+        case 0xd4: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "CNC " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
+            return 0;
+        }
         case 0xd5: {
             std::cout << "PUSH D" << std::endl;
             *pc = *pc + 1;
@@ -1030,6 +1155,16 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::cout << "SUI #$" << input << std::endl; //D8
             *pc = *pc + 2;
+            return 0;
+        }
+        case 0xd7: {
+            std::cout << "RST 2" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xd8: {
+            std::cout << "RC" << std::endl;
+            *pc = *pc + 1;
             return 0;
         }
         case 0xda: {
@@ -1052,14 +1187,34 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             return 0;
         }
 
+
+        case 0xe0: {
+            std::cout << "RPO" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xe1: {
             std::cout << "POP H" << std::endl;
             *pc = *pc + 1;
             return 0;
         }
+        case 0xe2: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "JPO " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
+            return 0;
+        }
         case 0xe3: {
             std::cout << "XTHL" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xe4: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "CPO " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
             return 0;
         }
         case 0xe5: {
@@ -1073,9 +1228,26 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 2;
             return 0;
         }
+        case 0xe7: {
+            std::cout << "RST 4" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xe8: {
+            std::cout << "RPE" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xe9: {
             std::cout << "PCHL" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xea: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "JPE " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
             return 0;
         }
         case 0xeb: {
@@ -1083,11 +1255,53 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0xec: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "CPE " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
+            return 0;
+        }
+        case 0xee: {
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::cout << "XRI #$" << input1 << std::endl; 
+            *pc = *pc + 2;
+            return 0;
+        }
+        case 0xef: {
+            std::cout << "RST 5" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
 
 
+        case 0xf0: {
+            std::cout << "RP" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
         case 0xf1: {
             std::cout << "POP PSW" << std::endl;
             *pc = *pc + 1;
+            return 0;
+        }
+        case 0xf2: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "JP " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
+            return 0;
+        }
+        case 0xf3: {
+            std::cout << "DI" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xf4: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "CP " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
             return 0;
         }
         case 0xf5: {
@@ -1099,6 +1313,21 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::cout << "ORI #$" << input1 << std::endl; 
             *pc = *pc + 2;
+            return 0;
+        }
+        case 0xf7: {
+            std::cout << "RST 6" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xf8: {
+            std::cout << "RM" << std::endl;
+            *pc = *pc + 1;
+            return 0;
+        }
+        case 0xf9: {
+            std::cout << "SPHL" << std::endl;
+            *pc = *pc + 1;
             return 0;
         }
         case 0xfa: {
@@ -1113,10 +1342,22 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
             *pc = *pc + 1;
             return 0;
         }
+        case 0xfc: {
+            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
+            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+            std::cout << "CM " << "$" << input1 << input2 << std::endl;
+            *pc = *pc + 3;
+            return 0;
+        }
         case 0xfe: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::cout << "CPI #$" << input1 << std::endl;
             *pc = *pc + 2;
+            return 0;
+        }
+        case 0xff: {
+            std::cout << "RST 7" << std::endl;
+            *pc = *pc + 1;
             return 0;
         }
 
