@@ -8,3 +8,6 @@ Emualtor for Intel 8080
 # Components
 
 * Dissassembler
+
+# Running the code 
+* Run ```make``` to create the complier (currently on OS X)

@@ -8,16 +8,15 @@
 // #include <sstream> // for std::ostringstream
 #include "constants.hpp"
 
-class Disassembler
+class Ram
 {
      private: 
-          unsigned char codeBuffer[MAX_ROM_SIZE];
+          unsigned char RAM[MAX_RAM_SIZE];
      public:
-          Disassembler();
-          ~Disassembler();
-          int disassembleRom(std::string romPath);
-          int disassembleInstruction(unsigned char* buffer, int* pc);
-          std::string disassemblerToStringHex(unsigned char* code);
+          Ram();
+          ~Ram();
+          void setROM(unsigned char* buffer);
+          unsigned char* getCodeFromBuffer(int* ptr);
 };
  
 #endif
