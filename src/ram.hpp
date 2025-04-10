@@ -11,12 +11,13 @@
 class Ram
 {
      private: 
-          unsigned char RAM[MAX_RAM_SIZE];
+          unsigned char codeBuffer[MAX_ROM_SIZE];
      public:
           Ram();
           ~Ram();
           void setROM(unsigned char* buffer);
-          unsigned char* getCodeFromBuffer(int* ptr);
+          unsigned char* getBufferPtr();
+          // unsigned char* getCodeFromBuffer(int* ptr);
 };
  
 #endif

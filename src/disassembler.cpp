@@ -25,10 +25,11 @@ int Disassembler::disassembleRom(std::string romPath)
         return 1;
     } 
 
-    myfile.read(reinterpret_cast<char*>(this->codeBuffer), MAX_ROM_SIZE);
+    unsigned char* buffer = this->ram.getBufferPtr();
+    myfile.read(reinterpret_cast<char*>(buffer), MAX_ROM_SIZE);
 
     while (pc != -1 && pc < MAX_ROM_SIZE) {
-        this->disassembleInstruction(this->codeBuffer, &pc);
+        this->disassembleInstruction(buffer, &pc);
     }
     
 
@@ -39,8 +40,8 @@ int Disassembler::disassembleRom(std::string romPath)
     // std::cout << std::endl;
     
     if (DEBUG) {
-            std::cout << "Reached end of file" << std::endl;
-        }
+        std::cout << "Reached end of file" << std::endl;
+    }
 
     myfile.close();
     return 0;

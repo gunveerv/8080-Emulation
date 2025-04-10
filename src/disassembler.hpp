@@ -7,11 +7,12 @@
 #include <iomanip> // for std::setw
 #include <sstream> // for std::ostringstream
 #include "constants.hpp"
+#include "ram.hpp"
 
 class Disassembler
 {
-     private: 
-          unsigned char codeBuffer[MAX_ROM_SIZE];
+     private:
+          Ram ram;
      public:
           Disassembler();
           ~Disassembler();

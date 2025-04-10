@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++20
-SRC = src/main.cpp src/disassembler.cpp
+SRC = src/main.cpp src/disassembler.cpp src/ram.cpp
 OBJ = $(SRC:.cpp=.o)  
 OUT = 8080.out
 
