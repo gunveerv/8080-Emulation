@@ -12,9 +12,10 @@ Disassembler::~Disassembler()
 
 int Disassembler::disassembleRom(std::string romPath) 
 {
-    int pc = 0;
     std::ifstream myfile;
     myfile.open(romPath, std::ios::binary);
+    struct Register* regPtr = this->ram.getRegister();
+    // int pc = 0;
 
     if (DEBUG) {
         std::cout << "src/disassembler.cpp - Reading File: " << romPath << std::endl;
@@ -25,11 +26,15 @@ int Disassembler::disassembleRom(std::string romPath)
         return 1;
     } 
 
+    // buffer points to the ram buffer
     unsigned char* buffer = this->ram.getBufferPtr();
-    myfile.read(reinterpret_cast<char*>(buffer), MAX_ROM_SIZE);
 
-    while (pc != -1 && pc < MAX_ROM_SIZE) {
-        this->disassembleInstruction(buffer, &pc);
+    // read the data to ram's buffer
+    myfile.read(reinterpret_cast<char*>(buffer), MAX_ROM_SIZE);
+    myfile.close();
+
+    while (regPtr->pc != -1 && regPtr->pc < MAX_ROM_SIZE) {
+        this->disassembleInstruction(buffer, &(regPtr->pc));
     }
     
 
@@ -43,7 +48,8 @@ int Disassembler::disassembleRom(std::string romPath)
         std::cout << "Reached end of file" << std::endl;
     }
 
-    myfile.close();
+    // std::cout << regPtr->sp << std::endl;
+    // std::cout << "test"<< std::endl;
     return 0;
 };
 

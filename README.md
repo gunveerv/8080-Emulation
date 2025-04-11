@@ -10,4 +10,5 @@ Emualtor for Intel 8080
 * Dissassembler
 
 # Running the code 
-* Run ```make``` to create the complier (currently on OS X)
+* Run `make` to create the complier (currently on OS X)
+* `make && ./8080.out ./roms/spaceinvaders/invaders`
