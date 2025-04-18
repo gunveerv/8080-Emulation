@@ -1414,6 +1414,7 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x01: {
+            // B <- byte 3, C <- byte 2
             regPtr->B = buffer[*pc+2];
             regPtr->C = buffer[*pc+1];
 
@@ -1421,7 +1422,8 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x02: {
-            std::cout << "STAX B" << std::endl;
+            // (BC) <- A
+            regPtr->B = regPtr->A;
             *pc = *pc + 1;
             return 0;
         }
@@ -1436,7 +1438,14 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x05: {
-            std::cout << "DCR B" << std::endl;
+            // Z, S, P, AC 
+            // B <- B-1
+            regPtr->B -= 1;
+
+            regPtr->Z = regPtr->B == 0;
+            regPtr->S = 0x80 == (regPtr->B & 0x80);
+            regPtr->P = this->setParity(regPtr->B);
+            // regPtr->AC = 
             *pc = *pc + 1;
             return 0;
         }
@@ -2709,4 +2718,19 @@ std::string Disassembler::disassemblerToStringHex(unsigned char* code)
     oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(*code);
     std::string instruction = oss.str();
     return instruction;
+}
+
+int Disassembler::setParity(unsigned char A)
+{
+    int count = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+        unsigned char tmp = A;
+        tmp <<= i;
+        tmp &= 0x80;
+        count += (tmp == 0x80);
+    }
+
+    return ((count &= 0x01) == 0);
 }
