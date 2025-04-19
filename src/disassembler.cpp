@@ -1450,8 +1450,8 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x06: {
-            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "MVI B,#$" << input << std::endl; //D8
+            // B <- byte 2
+            regPtr->B = buffer[*pc+1];
             *pc = *pc + 2;
             return 0;
         }
@@ -1461,7 +1461,20 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x09: {
-            std::cout << "DAD B" << std::endl;
+            // HL = HL + BC
+
+            // add the lows and highs 
+            unsigned char low = regPtr->L + regPtr->C;
+
+            // logical check for carry bit 
+            // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
+            regPtr->CY = (low>>7 == 0) && ((regPtr->C>>7 == 1) || (regPtr->L>>7 == 1));
+            
+            unsigned char high = regPtr->H + regPtr->B + regPtr->CY;
+
+            regPtr->H = high; 
+            regPtr->L = low;
+
             *pc = *pc + 1;
             return 0;
         }
@@ -1481,27 +1494,33 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x0d: {
-            std::cout << "DCR C" << std::endl;
+            // C <-C-1
+            regPtr->C -= 1;
+            regPtr->Z = regPtr->C == 0;
+            regPtr->S = 0x80 == (regPtr->C & 0x80);
+            regPtr->P = this->setParity(regPtr->C);
             *pc = *pc + 1;
             return 0;
         }
         case 0x0e: {
-            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "MVI C,#$" << input << std::endl;
+            // C <- byte 2
+            regPtr->C = buffer[*pc+1];
             *pc = *pc + 2;
             return 0;
         }
         case 0x0f: {
-            std::cout << "RRC" << std::endl;
+            // A = A >> 1; bit 7 = prev bit 0; CY = prev bit 0
+            regPtr->CY = regPtr->A >> 7;
+            regPtr->A = (regPtr->A >> 1) + (regPtr->CY << 7);
             *pc = *pc + 1;
             return 0;
         }
 
 
         case 0x11: {
-            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
-            std::cout << "LXI D,#$" << input1 << input2 << std::endl;
+            // 	D <- byte 3, E <- byte 2
+            regPtr->D = buffer[*pc+2];
+            regPtr->E = buffer[*pc+1];
             *pc = *pc + 3;
             return 0;
         }
@@ -1511,7 +1530,9 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x13: {
-            std::cout << "INX D" << std::endl;
+            // DE <- DE + 1
+            regPtr->E += 1;
+            regPtr->D += (regPtr->E == 0);
             *pc = *pc + 1;
             return 0;
         }
@@ -1532,12 +1553,26 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x19: {
-            std::cout << "DAD D" << std::endl;
+            // HL = HL + DE
+
+            // add the lows and highs 
+            unsigned char low = regPtr->L + regPtr->C;
+
+            // logical check for carry bit 
+            // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
+            regPtr->CY = (low>>7 == 0) && ((regPtr->E>>7 == 1) || (regPtr->L>>7 == 1));
+            
+            unsigned char high = regPtr->H + regPtr->D + regPtr->CY;
+
+            regPtr->H = high; 
+            regPtr->L = low;
+
             *pc = *pc + 1;
             return 0;
         }
         case 0x1a: {
-            std::cout << "LDAX D" << std::endl;
+            // A <- (DE)
+            
             *pc = *pc + 1;
             return 0;
         }
