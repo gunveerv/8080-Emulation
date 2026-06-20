@@ -11,8 +11,9 @@
 
 class Ram
 {
-     private: 
-          unsigned char codeBuffer[MAX_ROM_SIZE];
+     private:
+          unsigned char memory[MAX_RAM_SIZE];
+          // strcut in constants.cpp
           struct Register reg = {0};
      public:
           Ram();
@@ -22,5 +23,5 @@ class Ram
           Register* getRegister();
           // unsigned char* getCodeFromBuffer(int* ptr);
 };
- 
+
 #endif

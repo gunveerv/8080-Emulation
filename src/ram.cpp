@@ -12,12 +12,12 @@ Ram::~Ram()
 
 void Ram::setROM(unsigned char* buffer)
 {
-    std::memcpy(this->codeBuffer, buffer, 5 * sizeof(char));
+    std::memcpy(this->memory, buffer, 5 * sizeof(char));
 };
 
 unsigned char* Ram::getBufferPtr()
 {
-    return this->codeBuffer;
+    return this->memory;
 };
 
 Register* Ram::getRegister()

@@ -10,7 +10,8 @@ Disassembler::~Disassembler()
 {
 };
 
-int Disassembler::disassembleRom(std::string romPath) 
+// Main ROM Dissassembler
+int Disassembler::disassembleRom(std::string romPath)
 {
     std::ifstream myfile;
     myfile.open(romPath, std::ios::binary);
@@ -21,10 +22,10 @@ int Disassembler::disassembleRom(std::string romPath)
         std::cout << "src/disassembler.cpp - Reading File: " << romPath << std::endl;
     }
 
-    if (!myfile.is_open() ) { 
+    if (!myfile.is_open() ) {
         std::cout << "Couldn't open file\n";
         return 1;
-    } 
+    }
 
     // buffer points to the ram buffer
     unsigned char* buffer = this->ram.getBufferPtr();
@@ -36,14 +37,14 @@ int Disassembler::disassembleRom(std::string romPath)
     while (regPtr->pc != -1 && regPtr->pc < MAX_ROM_SIZE) {
         this->disassembleInstruction(buffer, &(regPtr->pc));
     }
-    
+
 
     // Print out data in codeBuffer
     // for (int i = 0; i < myfile.gcount(); ++i) {
     //     std::cout << static_cast<int>(codeBuffer[i]) << " ";
     // }
     // std::cout << std::endl;
-    
+
     if (DEBUG) {
         std::cout << "Reached end of file" << std::endl;
     }
@@ -53,8 +54,8 @@ int Disassembler::disassembleRom(std::string romPath)
     return 0;
 };
 
-
-int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc) 
+// instruction breakdown (no execute)
+int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
 {
     unsigned char* code = &buffer[*pc];
 
@@ -1183,13 +1184,13 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0xdb: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "IN #$" << input1 << std::endl; 
+            std::cout << "IN #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
         case 0xde: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "SBI #$" << input1 << std::endl; 
+            std::cout << "SBI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -1231,7 +1232,7 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0xe6: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "ANI #$" << input1 << std::endl; 
+            std::cout << "ANI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -1271,7 +1272,7 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0xee: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "XRI #$" << input1 << std::endl; 
+            std::cout << "XRI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -1318,7 +1319,7 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
         }
         case 0xf6: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "ORI #$" << input1 << std::endl; 
+            std::cout << "ORI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -1379,6 +1380,7 @@ int Disassembler::disassembleInstruction(unsigned char* buffer, int* pc)
     }
 }
 
+// instruction breakdown & execution
 int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* regPtr)
 {
     unsigned char* code = &buffer[*pc];
@@ -1438,14 +1440,14 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x05: {
-            // Z, S, P, AC 
+            // Z, S, P, AC
             // B <- B-1
             regPtr->B -= 1;
 
             regPtr->Z = regPtr->B == 0;
             regPtr->S = 0x80 == (regPtr->B & 0x80);
             regPtr->P = this->setParity(regPtr->B);
-            // regPtr->AC = 
+            // regPtr->AC =
             *pc = *pc + 1;
             return 0;
         }
@@ -1463,16 +1465,16 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         case 0x09: {
             // HL = HL + BC
 
-            // add the lows and highs 
+            // add the lows and highs
             unsigned char low = regPtr->L + regPtr->C;
 
-            // logical check for carry bit 
+            // logical check for carry bit
             // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
             regPtr->CY = (low>>7 == 0) && ((regPtr->C>>7 == 1) || (regPtr->L>>7 == 1));
-            
+
             unsigned char high = regPtr->H + regPtr->B + regPtr->CY;
 
-            regPtr->H = high; 
+            regPtr->H = high;
             regPtr->L = low;
 
             *pc = *pc + 1;
@@ -1555,16 +1557,16 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         case 0x19: {
             // HL = HL + DE
 
-            // add the lows and highs 
+            // add the lows and highs
             unsigned char low = regPtr->L + regPtr->C;
 
-            // logical check for carry bit 
+            // logical check for carry bit
             // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
             regPtr->CY = (low>>7 == 0) && ((regPtr->E>>7 == 1) || (regPtr->L>>7 == 1));
-            
+
             unsigned char high = regPtr->H + regPtr->D + regPtr->CY;
 
-            regPtr->H = high; 
+            regPtr->H = high;
             regPtr->L = low;
 
             *pc = *pc + 1;
@@ -1572,7 +1574,9 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0x1a: {
             // A <- (DE)
-            
+            unsigned short int addr = 0;
+            addr += (regPtr->D << 8) + regPtr->E;
+            regPtr->A = this->ram.getBufferPtr()[addr];
             *pc = *pc + 1;
             return 0;
         }
@@ -1605,9 +1609,9 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
 
 
         case 0x21: {
-            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
-            std::cout << "LXI H,#$" << input1 << input2 << std::endl; //D16
+            // H <- byte 3, L <- byte 2
+            regPtr->H = buffer[*pc+2];
+            regPtr->L = buffer[*pc+1];
             *pc = *pc + 3;
             return 0;
         }
@@ -1619,7 +1623,9 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x23: {
-            std::cout << "INX H" << std::endl;
+            // HL <- HL + 1
+            regPtr->L += 1;
+            regPtr->H += (regPtr->L == 0);
             *pc = *pc + 1;
             return 0;
         }
@@ -1634,8 +1640,8 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x26: {
-            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "MVI H,#$" << input << std::endl; //D8
+            // H <- byte 2
+            regPtr->H = buffer[*pc+1];
             *pc = *pc + 2;
             return 0;
         }
@@ -1645,7 +1651,10 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x29: {
-            std::cout << "DAD H" << std::endl;
+            // HL = HL + HL
+            regPtr->CY = regPtr->L >> 7;
+            regPtr->L = regPtr->L << 1;
+            regPtr->H = (regPtr->H << 1) + regPtr->CY;
             *pc = *pc + 1;
             return 0;
         }
@@ -1685,21 +1694,21 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
 
 
         case 0x31: {
-            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
-            std::cout << "LXI SP,#$" << input1 << input2 << std::endl;
+            //SP.hi <- byte 3, SP.lo <- byte 2
+            regPtr->sp = (buffer[*pc+2] << 8) + buffer[*pc+1];
             *pc = *pc + 3;
             return 0;
         }
         case 0x32: {
-            std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
-            std::cout << "STA " << "$" << input1 << input2 << std::endl;
+            // (adr) <- A
+            unsigned short int adr = (buffer[*pc+2] << 8) + buffer[*pc+1];
+            this->ram.getBufferPtr()[adr] = regPtr->A;
             *pc = *pc + 3;
             return 0;
         }
         case 0x33: {
-            std::cout << "INX SP" << std::endl;
+            // SP = SP + 1
+            regPtr->sp += 1;
             *pc = *pc + 1;
             return 0;
         }
@@ -1714,8 +1723,9 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
             return 0;
         }
         case 0x36: {
-            std::string input = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "MVI M,#$" << input << std::endl; //D8
+            // (HL) <- byte 2
+            unsigned short int adr = (regPtr->H << 8) + regPtr->L;
+            this->ram.getBufferPtr()[adr] = buffer[*pc+2];
             *pc = *pc + 2;
             return 0;
         }
@@ -2551,13 +2561,13 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0xdb: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "IN #$" << input1 << std::endl; 
+            std::cout << "IN #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
         case 0xde: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "SBI #$" << input1 << std::endl; 
+            std::cout << "SBI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -2599,7 +2609,7 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0xe6: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "ANI #$" << input1 << std::endl; 
+            std::cout << "ANI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -2639,7 +2649,7 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0xee: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "XRI #$" << input1 << std::endl; 
+            std::cout << "XRI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -2686,7 +2696,7 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0xf6: {
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+1]);
-            std::cout << "ORI #$" << input1 << std::endl; 
+            std::cout << "ORI #$" << input1 << std::endl;
             *pc = *pc + 2;
             return 0;
         }
@@ -2747,7 +2757,8 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
     }
 }
 
-std::string Disassembler::disassemblerToStringHex(unsigned char* code) 
+// String (int) of instruction
+std::string Disassembler::disassemblerToStringHex(unsigned char* code)
 {
     std::ostringstream oss;
     oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(*code);
@@ -2755,10 +2766,11 @@ std::string Disassembler::disassemblerToStringHex(unsigned char* code)
     return instruction;
 }
 
+// Parity Flag
+// set if the number of 1 bits in the result is even.
 int Disassembler::setParity(unsigned char A)
 {
     int count = 0;
-
     for (int i = 0; i < 8; i++)
     {
         unsigned char tmp = A;
@@ -2766,6 +2778,5 @@ int Disassembler::setParity(unsigned char A)
         tmp &= 0x80;
         count += (tmp == 0x80);
     }
-
     return ((count &= 0x01) == 0);
 }
