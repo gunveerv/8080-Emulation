@@ -3,7 +3,7 @@
 
 #define DEBUG 1
 #define MAX_ROM_SIZE 8192
-#define MAX_RAM_SIZE 65536
+#define MAX_RAM_SIZE 65536 // 2^16
 
 struct Register {
     unsigned char A, B, C, D, E, H, L;

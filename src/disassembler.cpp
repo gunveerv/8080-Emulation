@@ -1465,15 +1465,16 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         case 0x09: {
             // HL = HL + BC
 
-            // add the lows and highs
-            unsigned char low = regPtr->L + regPtr->C;
+            //XOR the lows (sum of the low without carry)
+            unsigned char low = regPtr->L ^ regPtr->C;
 
-            // logical check for carry bit
-            // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
-            regPtr->CY = (low>>7 == 0) && ((regPtr->C>>7 == 1) || (regPtr->L>>7 == 1));
+            // set CY based on if low < L/C
+            regPtr->CY = low < regPtr->L && low < regPtr->C ? 1 : 0;
 
+            //add highs + CY
             unsigned char high = regPtr->H + regPtr->B + regPtr->CY;
 
+            //set high and low
             regPtr->H = high;
             regPtr->L = low;
 
@@ -1557,15 +1558,16 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         case 0x19: {
             // HL = HL + DE
 
-            // add the lows and highs
-            unsigned char low = regPtr->L + regPtr->C;
+            //XOR the lows (sum of the low without carry)
+            unsigned char low = regPtr->L ^ regPtr->E;
 
-            // logical check for carry bit
-            // if the answer of the lows has a 0 MSB, and L/C has a 1 MSB, signal to CY
-            regPtr->CY = (low>>7 == 0) && ((regPtr->E>>7 == 1) || (regPtr->L>>7 == 1));
+            // set CY based on if low < L/E
+            regPtr->CY = low < regPtr->L && low < regPtr->E ? 1 : 0;
 
+            //add highs + CY
             unsigned char high = regPtr->H + regPtr->D + regPtr->CY;
 
+            //set high and low
             regPtr->H = high;
             regPtr->L = low;
 
@@ -1618,6 +1620,11 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         case 0x22: {
             std::string input2 = this->disassemblerToStringHex(&buffer[*pc+1]);
             std::string input1 = this->disassemblerToStringHex(&buffer[*pc+2]);
+
+            //build the 16-bit address
+            unsigned short int addr = &buffer[*pc+2] << 8;
+            addr += &buffer[*pc+1];
+
             std::cout << "SHLD $" << input1 << input2 << std::endl;
             *pc = *pc + 3;
             return 0;
@@ -1652,9 +1659,20 @@ int Disassembler::executeInstruction(unsigned char* buffer, int* pc, Register* r
         }
         case 0x29: {
             // HL = HL + HL
-            regPtr->CY = regPtr->L >> 7;
-            regPtr->L = regPtr->L << 1;
-            regPtr->H = (regPtr->H << 1) + regPtr->CY;
+
+            //XOR the lows (sum of the low without carry)
+            unsigned char low = regPtr->L ^ regPtr->L;
+
+            // set CY based on if low < L/L
+            regPtr->CY = low < regPtr->L ? 1 : 0;
+
+            //add highs + CY
+            unsigned char high = regPtr->H + regPtr->H + regPtr->CY;
+
+            //set high and low
+            regPtr->H = high;
+            regPtr->L = low;
+
             *pc = *pc + 1;
             return 0;
         }
